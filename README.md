@@ -164,3 +164,26 @@ and in the `main.go` file we add:
 	informers.Start(ch)
 	c.run(ch)
 ```
+
+## Addeding the objects in the Queue
+
+in the handle functions we just add `c.queue.Add(obj)`
+
+```go
+func (c *controller) handleAdd(obj interface{}) {
+	fmt.Println("add was called")
+	c.queue.Add(obj)
+}
+
+func (c *controller) handleDel(obj interface{}) {
+	fmt.Println("delete was called")
+	c.queue.Add(obj)
+}
+```
+
+go read the code:
+vide reference [https://www.youtube.com/watch?v=lzoWSfvE2yA&list=PLh4KH3LtJvRQ43JAwwjvTnsVOMp0WKnJO&ab_channel=VivekSingh]
+
+and to test it just run the ekpose and create an nginx deployment !! and then a service will be created automatically
+
+you can see it if you do port forwarding `k port-forward -n ekposetest svc/nginx 8080:80`
