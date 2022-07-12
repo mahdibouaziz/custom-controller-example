@@ -5,13 +5,16 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"time"
 
+	"k8s.io/client-go/informers"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/rest"
 	"k8s.io/client-go/tools/clientcmd"
 )
 
 func main() {
+	// create a clientset
 	kubeconfig := flag.String("kubeconfig", filepath.Join(os.Getenv("HOME"), ".kube", "config"), "Location to your kubeconfig file")
 	flag.Parse()
 
@@ -30,6 +33,12 @@ func main() {
 		fmt.Printf("error %s creating a clientset", err.Error())
 	}
 
-	fmt.Println(clientset)
+	// creating a shared informer factory
+	informers := informers.NewSharedInformerFactory(clientset, 30*time.Second)
+
+	ch := make(chan struct{})
+	c := newController(clientset, informers.Apps().V1().Deployments())
+	informers.Start(ch)
+	c.run(ch)
 
 }
