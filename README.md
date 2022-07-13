@@ -4,6 +4,11 @@
 
 You must read the Docs that I've made of the client-go
 
+## Note:
+
+we use tools like `kubebuilder` or `operator sdk` which **generates a controller scaffold for us**, but in this demo we will write everything from scratch
+
+
 ## Use case of our custom controller
 
 We are going to create a custom controller called **ekpose** that will create a `service` and an `ingress` resource as soon as a `deployment` is created.
