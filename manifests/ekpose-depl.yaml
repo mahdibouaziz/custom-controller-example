@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: ekpose
+  name: ekpose
+  namespace: ekpose
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ekpose
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: ekpose
+    spec:
+      containers:
+      - image: mahdibouaziz/ekpose:0.1.0
+        name: ekpose
+        resources: {}
+      serviceAccountName: ekpose-sa
+status: {}
